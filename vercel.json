@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npx prisma generate && next build",
-  "installCommand": "npm install && npx prisma generate",
+  "buildCommand": "next build",
+  "installCommand": "npm install",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "rewrites": [
