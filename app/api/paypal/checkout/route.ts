@@ -20,8 +20,8 @@ export async function POST(req: Request) {
     const { priceId } = await req.json();
     
     const plans: Record<string, { name: string; amount: string }> = {
-      'PRO': { name: 'AI Resume Pro', amount: '9.99' },
-      'ENTERPRISE': { name: 'AI Resume Enterprise', amount: '29.99' },
+      'PRO': { name: 'AI Resume Pro Monthly', amount: '19.00' },
+      'ENTERPRISE': { name: 'AI Resume Enterprise Monthly', amount: '49.00' },
     };
     
     const planData = plans[priceId || 'PRO'];
