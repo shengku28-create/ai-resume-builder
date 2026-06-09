@@ -67,9 +67,12 @@ export async function POST(req: Request) {
         const prisma = new PrismaClient();
 
         // Store invoice
+        const customerId = typeof invoice.customer === 'string' 
+          ? invoice.customer 
+          : (invoice.customer as any).id || '';
         await prisma.invoice.create({
           data: {
-            userId: invoice.customer?.toString() || '',
+            userId: customerId,
             stripeInvoiceId: invoice.id,
             amount: invoice.amount_paid,
             currency: invoice.currency || 'usd',
