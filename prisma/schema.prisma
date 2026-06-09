@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PlanType {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum ResumeStatus {
+  DRAFT
+  OPTIMIZED
+  FINISHED
+}
+
+enum SectionType {
+  PERSONAL_INFO
+  SUMMARY
+  EXPERIENCE
+  EDUCATION
+  SKILLS
+  PROJECTS
+  CERTIFICATIONS
+  LANGUAGES
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String      @id @default(cuid())
+  name          String?
+  email         String      @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  plan          PlanType    @default(FREE)
+  planExpires   DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  resumes       Resume[]
+  invoices      Invoice[]
+
+  @@index([email])
+}
+
+model Resume {
+  id          String         @id @default(cuid())
+  userId      String
+  title       String
+  status      ResumeStatus   @default(DRAFT)
+  template    String         @default("modern")
+  metadata    Json?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sections  ResumeSection[]
+
+  @@index([userId])
+}
+
+model ResumeSection {
+  id         String       @id @default(cuid())
+  resumeId   String
+  type       SectionType
+  content    Json
+  order      Int          @default(0)
+  isAiOptimized Boolean  @default(false)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@unique([resumeId, type])
+}
+
+model Invoice {
+  id          String    @id @default(cuid())
+  userId      String
+  stripeInvoiceId  String   @unique
+  amount      Int
+  currency    String    @default("usd")
+  status      String
+  planType    PlanType
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
