@@ -5,51 +5,51 @@ import { useState } from 'react';
 
 const pricingPlans = [
   {
-    name: '免费',
+    name: 'Free',
     price: '$0',
-    period: '/月',
+    period: '',
     features: [
-      '2份简历额度',
-      '5个模块限制',
-      '3次AI优化',
-      'Modern模板',
-      'PDF导出',
+      '2 resumes',
+      '5 resume modules',
+      '3 AI optimizations',
+      'Modern template',
+      'PDF export',
     ],
-    cta: '免费注册',
+    cta: 'Get Started Free',
     ctaLink: '/register',
     highlighted: false,
   },
   {
-    name: '专业版',
-    price: '$9',
-    period: '/月',
+    name: 'Pro',
+    price: '$9.99',
+    period: '/mo',
     features: [
-      '10份简历额度',
-      '8个模块限制',
-      '50次AI优化',
-      '3种模板',
-      'PDF导出',
-      '求职信生成',
-      '优先支持',
+      '10 resumes',
+      '8 resume modules',
+      '50 AI optimizations',
+      '3 templates',
+      'PDF export',
+      'Cover letter generator',
+      'Priority support',
     ],
-    cta: '升级到专业版',
+    cta: 'Upgrade to Pro',
     ctaLink: '/pricing',
     highlighted: true,
   },
   {
-    name: '企业版',
-    price: '$29',
-    period: '/月',
+    name: 'Enterprise',
+    price: '$29.99',
+    period: '/mo',
     features: [
-      '无限简历',
-      '无限模块',
-      '无限AI优化',
-      '4种模板(含创意)',
-      'PDF导出',
-      '求职信生成',
-      '优先技术支持',
+      'Unlimited resumes',
+      'Unlimited modules',
+      'Unlimited AI optimizations',
+      '4 templates (incl. Creative)',
+      'PDF export',
+      'Cover letter generator',
+      'Priority tech support',
     ],
-    cta: '选择企业版',
+    cta: 'Choose Enterprise',
     ctaLink: '/pricing',
     highlighted: false,
   },
@@ -58,53 +58,76 @@ const pricingPlans = [
 const features = [
   {
     icon: '🤖',
-    title: 'AI智能优化',
-    desc: '基于DeepSeek大模型，自动优化你的简历内容，使其更符合目标职位的要求。',
+    title: 'AI ATS Optimization',
+    desc: 'Powered by DeepSeek large language models, automatically optimizes your resume content to match target job requirements.',
   },
   {
     icon: '📄',
-    title: '多种专业模板',
-    desc: '提供Modern、Professional、Minimal、Creative四种模板，满足不同行业需求。',
+    title: '10+ Professional Templates',
+    desc: 'Choose from Modern, Professional, Minimal, Creative, and more templates tailored for every industry.',
     isPro: true,
   },
   {
     icon: '⚡',
-    title: '快速生成',
-    desc: '只需填写基本信息，AI自动为你生成专业的职业概述和经历描述。',
+    title: 'Fast Generation',
+    desc: 'Just fill in your basic info — AI auto-generates professional summaries and experience descriptions.',
   },
   {
     icon: '📥',
-    title: '一键导出PDF',
-    desc: '生成的简历可以直接导出为PDF格式，立即投递给心仪的公司。',
+    title: 'One-Click PDF Export',
+    desc: 'Export your polished resume as a professional PDF instantly, ready to apply.',
   },
   {
     icon: '✉️',
-    title: '求职信生成',
-    desc: '根据你的简历和目标职位，自动生成专业的求职信。',
+    title: 'Cover Letter Generator',
+    desc: 'Auto-generates tailored cover letters based on your resume and target positions.',
     isPro: true,
   },
   {
     icon: '🔒',
-    title: '数据安全',
-    desc: '所有数据存储在安全的数据库中，你的个人信息得到充分保护。',
+    title: 'Data Security',
+    desc: 'All data is stored securely — your personal information is fully protected.',
   },
 ];
 
 const testimonials = [
   {
-    name: '张明',
-    role: '软件工程师',
-    text: 'AI Resume Builder帮我在30分钟内生成了一份专业简历，面试邀请数量增加了三倍！',
+    name: 'Sarah Chen',
+    role: 'Software Engineer at Google',
+    text: 'AI Resume Builder helped me create a professional resume in just 30 minutes. My interview requests tripled within a week!',
   },
   {
-    name: '李婷',
-    role: '产品经理',
-    text: 'AI优化功能非常强大，自动把我的经历描述改得更专业、更有说服力。强烈推荐！',
+    name: 'James Miller',
+    role: 'Product Manager at Meta',
+    text: 'The AI optimization is incredibly powerful. It transformed my experience descriptions to sound more professional and impactful. Highly recommend!',
   },
   {
-    name: '王强',
-    role: '数据分析师',
-    text: '模板设计精美，导出效果出色。使用专业版后，简历质量大幅提升。',
+    name: 'Emily Rodriguez',
+    role: 'Data Analyst at Amazon',
+    text: 'Beautiful templates and excellent PDF output quality. After upgrading to Pro, my resume quality improved dramatically.',
+  },
+];
+
+const faqItems = [
+  {
+    q: 'What does the Free plan include?',
+    a: 'The Free plan lets you create 2 resumes, use 5 resume modules, and perform 3 AI optimizations. It\'s completely free — no credit card required.',
+  },
+  {
+    q: 'How does payment work?',
+    a: 'We accept payments via PayPal. You can pay with credit cards, debit cards, or PayPal balance. All transactions are secure with no hidden fees.',
+  },
+  {
+    q: 'Can I cancel anytime?',
+    a: 'Yes. You can cancel your subscription at any time. You\'ll continue to have access to paid features until the end of your billing cycle.',
+  },
+  {
+    q: 'Do you offer refunds?',
+    a: 'We offer refunds within 7 days of purchase, no questions asked. Contact our support team for assistance.',
+  },
+  {
+    q: 'Which languages are supported?',
+    a: 'AI Resume Builder supports creating resumes in both English and Chinese, with AI-powered optimization suggestions.',
   },
 ];
 
@@ -113,7 +136,7 @@ export default function HomePage() {
 
   const handleWaitlist = () => {
     if (email) {
-      alert('感谢加入等待列表！我们会尽快通知您。');
+      alert('Thanks for joining the waitlist! We\'ll notify you soon.');
       setEmail('');
     }
   };
@@ -128,22 +151,25 @@ export default function HomePage() {
           </Link>
           <div className="flex items-center gap-4 md:gap-6">
             <Link href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden md:block">
-              功能
+              Features
             </Link>
             <Link href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden md:block">
-              定价
+              Pricing
             </Link>
             <Link href="#testimonials" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden md:block">
-              评价
+              Testimonials
+            </Link>
+            <Link href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden md:block">
+              FAQ
             </Link>
             <Link href="/login" className="text-sm font-medium hover:text-foreground transition-colors">
-              登录
+              Log in
             </Link>
             <Link
               href="/register"
               className="inline-flex items-center justify-center h-10 px-5 rounded-lg text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors"
             >
-              免费开始
+              Start Free
             </Link>
           </div>
         </div>
@@ -153,34 +179,36 @@ export default function HomePage() {
       <section className="py-20 md:py-32 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="container mx-auto px-4 md:px-6 text-center max-w-4xl">
           <div className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm mb-8">
-            ✨ AI驱动 · 专业模板 · 一键导出
+            ✨ AI-Powered · Professional Templates · One-Click Export
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-            用AI打造你的
-            <span className="text-primary"> 专业简历</span>
+            Build Your Dream Resume
+            <br />
+            <span className="text-primary">with AI</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-            无需设计技能，无需写作经验。AI自动优化内容，提供多种精美模板，
-            30分钟创建一份令HR眼前一亮的专业简历。
+            No design skills. No writing experience needed. AI optimizes your content
+            for ATS systems, offers beautiful templates, and creates a professional resume
+            that gets you noticed — in minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Link
               href="/register"
               className="inline-flex items-center justify-center h-12 px-8 rounded-xl text-base font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl hover:scale-105"
             >
-              免费创建简历 →
+              Build My Resume Free →
             </Link>
             <Link
               href="#features"
               className="inline-flex items-center justify-center h-12 px-8 rounded-xl text-base font-semibold border-2 hover:bg-muted transition-all"
             >
-              了解更多
+              Learn More
             </Link>
           </div>
           <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1">✓ 无需信用卡</span>
-            <span className="flex items-center gap-1">✓ 免费版永久可用</span>
-            <span className="flex items-center gap-1">✓ 随时升级</span>
+            <span className="flex items-center gap-1">✓ No credit card required</span>
+            <span className="flex items-center gap-1">✓ Free plan forever</span>
+            <span className="flex items-center gap-1">✓ Upgrade anytime</span>
           </div>
         </div>
       </section>
@@ -188,16 +216,16 @@ export default function HomePage() {
       {/* How It Works */}
       <section className="py-20">
         <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl font-bold text-center mb-16">三步创建完美简历</h2>
+          <h2 className="text-3xl font-bold text-center mb-16">Create the Perfect Resume in 3 Steps</h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
-              { step: '1', icon: '📝', title: '填写信息', desc: '输入你的个人信息、工作经历、教育背景等' },
-              { step: '2', icon: '🤖', title: 'AI优化', desc: 'AI自动优化内容，生成专业的职业概述' },
-              { step: '3', icon: '📥', title: '导出简历', desc: '选择模板，一键导出为PDF，立即投递' },
+              { step: '1', icon: '📝', title: 'Fill in Your Info', desc: 'Enter your personal details, work experience, education, and more.' },
+              { step: '2', icon: '🤖', title: 'AI Optimization', desc: 'AI automatically optimizes your content and generates professional summaries.' },
+              { step: '3', icon: '📥', title: 'Export & Apply', desc: 'Pick a template, export as PDF, and start applying with confidence.' },
             ].map((item) => (
               <div key={item.step} className="text-center p-6 rounded-2xl border bg-card">
                 <div className="text-4xl mb-4">{item.icon}</div>
-                <div className="text-primary font-bold text-sm mb-2">步骤 {item.step}</div>
+                <div className="text-primary font-bold text-sm mb-2">Step {item.step}</div>
                 <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                 <p className="text-muted-foreground">{item.desc}</p>
               </div>
@@ -209,9 +237,9 @@ export default function HomePage() {
       {/* Features Section */}
       <section id="features" className="py-20 bg-muted/50">
         <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl font-bold text-center mb-4">强大功能，助你脱颖而出</h2>
+          <h2 className="text-3xl font-bold text-center mb-4">Powerful Features to Stand Out</h2>
           <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
-            从内容生成到精美排版，AI Resume Builder提供了一站式简历制作解决方案
+            From content generation to polished layouts, AI Resume Builder provides a one-stop solution for creating winning resumes.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {features.map((feature, i) => (
@@ -236,8 +264,13 @@ export default function HomePage() {
       {/* Pricing Section */}
       <section id="pricing" className="py-20">
         <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl font-bold text-center mb-4">简单透明的定价</h2>
-          <p className="text-muted-foreground text-center mb-16">选择适合你的套餐，免费版即可开始使用</p>
+          <h2 className="text-3xl font-bold text-center mb-4">Simple, Transparent Pricing</h2>
+          <p className="text-muted-foreground text-center mb-4">
+            Start with our free plan. Upgrade anytime via PayPal.
+          </p>
+          <p className="text-muted-foreground text-center mb-16">
+            All paid plans are securely processed through PayPal.
+          </p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
             {pricingPlans.map((plan) => (
               <div
@@ -250,13 +283,13 @@ export default function HomePage() {
               >
                 {plan.highlighted && (
                   <div className="inline-block bg-primary text-white text-xs font-bold px-3 py-1 rounded-full mb-4">
-                    最受欢迎
+                    Most Popular
                   </div>
                 )}
                 <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
                 <div className="mb-6">
                   <span className="text-4xl font-extrabold">{plan.price}</span>
-                  <span className="text-muted-foreground">{plan.period}</span>
+                  {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
                 </div>
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((f) => (
@@ -276,8 +309,20 @@ export default function HomePage() {
                 >
                   {plan.cta}
                 </Link>
+                {plan.price > 0 && (
+                  <p className="text-xs text-muted-foreground text-center mt-3">
+                    Pay securely with PayPal
+                  </p>
+                )}
               </div>
             ))}
+          </div>
+
+          {/* Trust badges */}
+          <div className="mt-12 flex items-center justify-center gap-6 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1">🔒 PayPal Secure Payment</span>
+            <span className="flex items-center gap-1">↩️ Cancel Anytime</span>
+            <span className="flex items-center gap-1">🌍 Global Support</span>
           </div>
         </div>
       </section>
@@ -285,7 +330,10 @@ export default function HomePage() {
       {/* Testimonials */}
       <section id="testimonials" className="py-20 bg-muted/50">
         <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl font-bold text-center mb-16">用户评价</h2>
+          <h2 className="text-3xl font-bold text-center mb-4">What Our Users Say</h2>
+          <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
+            Join thousands of job seekers who landed their dream roles with AI Resume Builder.
+          </p>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {testimonials.map((t, i) => (
               <div key={i} className="p-6 rounded-2xl border bg-card">
@@ -301,18 +349,36 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="py-20">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl font-bold text-center mb-4">Frequently Asked Questions</h2>
+          <p className="text-muted-foreground text-center mb-12">
+            Everything you need to know about AI Resume Builder.
+          </p>
+          <div className="max-w-2xl mx-auto space-y-3">
+            {faqItems.map((faq, i) => (
+              <details key={i} className="border rounded-xl transition-all">
+                <summary className="p-5 cursor-pointer font-medium">{faq.q}</summary>
+                <div className="px-5 pb-5 text-muted-foreground">{faq.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20">
         <div className="container mx-auto px-4 md:px-6 text-center max-w-2xl">
-          <h2 className="text-3xl font-bold mb-4">准备好创建你的完美简历了吗？</h2>
+          <h2 className="text-3xl font-bold mb-4">Ready to Build Your Perfect Resume?</h2>
           <p className="text-muted-foreground mb-8 text-lg">
-            加入数千名已经通过AI Resume Builder找到理想工作的求职者
+            Join thousands of professionals who have landed their dream jobs with AI Resume Builder.
           </p>
           <Link
             href="/register"
             className="inline-flex items-center justify-center h-14 px-10 rounded-xl text-lg font-semibold text-white bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl"
           >
-            免费开始使用 →
+            Get Started Free →
           </Link>
         </div>
       </section>
@@ -326,35 +392,36 @@ export default function HomePage() {
                 <span className="text-primary">AI</span> Resume Builder
               </div>
               <p className="text-sm text-muted-foreground">
-                用AI技术帮助你打造专业简历，助力职业发展。
+                Leverage AI to craft professional resumes and accelerate your career journey.
               </p>
             </div>
             <div>
-              <h4 className="font-bold mb-3">产品</h4>
+              <h4 className="font-bold mb-3">Product</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="#features" className="hover:text-foreground">功能</Link></li>
-                <li><Link href="#pricing" className="hover:text-foreground">定价</Link></li>
-                <li><Link href="/register" className="hover:text-foreground">开始使用</Link></li>
+                <li><Link href="#features" className="hover:text-foreground">Features</Link></li>
+                <li><Link href="#pricing" className="hover:text-foreground">Pricing</Link></li>
+                <li><Link href="/register" className="hover:text-foreground">Get Started</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-3">支持</h4>
+              <h4 className="font-bold mb-3">Support</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="#" className="hover:text-foreground">帮助中心</Link></li>
-                <li><Link href="#" className="hover:text-foreground">联系我们</Link></li>
-                <li><Link href="#" className="hover:text-foreground">常见问题</Link></li>
+                <li><Link href="#faq" className="hover:text-foreground">FAQ</Link></li>
+                <li><Link href="/pricing" className="hover:text-foreground">Pricing & Payments</Link></li>
+                <li><Link href="#" className="hover:text-foreground">Contact Us</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-3">法律</h4>
+              <h4 className="font-bold mb-3">Legal</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link href="#" className="hover:text-foreground">隐私政策</Link></li>
-                <li><Link href="#" className="hover:text-foreground">服务条款</Link></li>
+                <li><Link href="#" className="hover:text-foreground">Privacy Policy</Link></li>
+                <li><Link href="#" className="hover:text-foreground">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
-          <div className="border-t pt-8 text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} AI Resume Builder. All rights reserved.
+          <div className="border-t pt-8 text-center text-sm text-muted-foreground flex items-center justify-center gap-4">
+            <span>© {new Date().getFullYear()} AI Resume Builder. All rights reserved.</span>
+            <span className="opacity-60">PayPal Secure Payment</span>
           </div>
         </div>
       </footer>
