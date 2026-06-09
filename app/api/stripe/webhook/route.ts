@@ -31,11 +31,8 @@ export async function POST(req: Request) {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.metadata?.userId;
         if (userId) {
-          // Update user plan based on the price
-          const { PrismaClient } = await import('@prisma/client');
-          const prisma = new PrismaClient();
+          const { prisma } = await import('@/lib/prisma');
 
-          // Determine plan based on price
           const lineItems = await stripe.checkout.sessions.listLineItems(
             session.id
           );
@@ -55,16 +52,13 @@ export async function POST(req: Request) {
               planExpires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
             },
           });
-
-          await prisma.$disconnect();
         }
         break;
       }
 
       case 'invoice.payment_succeeded': {
         const invoice = event.data.object as Stripe.Invoice;
-        const { PrismaClient } = await import('@prisma/client');
-        const prisma = new PrismaClient();
+        const { prisma } = await import('@/lib/prisma');
 
         // Store invoice
         const customerId = typeof invoice.customer === 'string' 
@@ -77,47 +71,16 @@ export async function POST(req: Request) {
             amount: invoice.amount_paid,
             currency: invoice.currency || 'usd',
             status: invoice.status,
+            planType: 'PRO',
           },
         });
-
-        // Extend plan expiration
-        const lineItems = await stripe.invoices.listLineItems(invoice.id);
-        const priceId = lineItems.data[0]?.price?.id;
-        let plan: 'PRO' | 'ENTERPRISE' = 'PRO';
-        if (
-          priceId === process.env.STRIPE_ENTERPRISE_MONTHLY_PRICE_ID
-        ) {
-          plan = 'ENTERPRISE';
-        }
-
-        await prisma.user.update({
-          where: { id: invoice.customer?.toString() || '' },
-          data: {
-            plan,
-            planExpires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-          },
-        });
-
-        await prisma.$disconnect();
         break;
       }
-
-      case 'invoice.payment_failed': {
-        // Handle failed payment
-        console.log('Payment failed for invoice:', event.data.object.id);
-        break;
-      }
-
-      default:
-        console.log(`Unhandled event type: ${event.type}`);
     }
 
     return NextResponse.json({ received: true });
-  } catch (error) {
-    console.error('Webhook handler error:', error);
-    return NextResponse.json(
-      { error: 'Webhook处理失败' },
-      { status: 500 }
-    );
+  } catch (err) {
+    console.error('Webhook processing error:', err);
+    return NextResponse.json({ error: 'Webhook processing error' }, { status: 500 });
   }
 }
