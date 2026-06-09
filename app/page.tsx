@@ -309,7 +309,7 @@ export default function HomePage() {
                 >
                   {plan.cta}
                 </Link>
-                {plan.price > 0 && (
+                {(typeof plan.price === 'number' ? plan.price : parseFloat(plan.price)) > 0 && (
                   <p className="text-xs text-muted-foreground text-center mt-3">
                     Pay securely with PayPal
                   </p>
